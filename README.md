@@ -6,6 +6,6 @@ In order to run this code, you need to install pyTorch.
 
 # Run
 
-'''
+```
 ./run.sh
-'''
+```
