@@ -5,6 +5,6 @@ This code is an implementation of the paper "Optimize TSK Fuzzy Systems for Clas
 In order to run this code, you need to install pyTorch.
 
 # Run
-’‘’shell
+'''
 ./run.sh
 '''
