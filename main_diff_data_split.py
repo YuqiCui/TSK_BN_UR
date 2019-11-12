@@ -27,20 +27,20 @@ def get_parser():
     # training parameters
     parser.add_argument('--batch_size', default=64, type=int, help='batch size')
     parser.add_argument('--epochs', default=1000, type=int, help='total training epochs')
-    parser.add_argument('--patience', default=40, type=int, help='training patience')
-    parser.add_argument('--data', default='Abalone', type=str, help='using dataset')
-    parser.add_argument('--n_rules', default=20, type=int, help='number of rules')
-    parser.add_argument('--loss_type', default='crossentropy', type=str, help='using loss')
-    parser.add_argument('--optim_type', default='adabound', type=str, help='type of optimization')
+    parser.add_argument('--patience', default=40, type=int, help='training patience for early stopping')
+    parser.add_argument('--data', default='Abalone', type=str, help='dataset name')
+    parser.add_argument('--n_rules', default=20, type=int, help='number of rules of TSK')
+    parser.add_argument('--loss_type', default='crossentropy', type=str, help='loss type')
+    parser.add_argument('--optim_type', default='adabound', type=str, help='optimization type')
     parser.add_argument('--weight_decay', default=0.05, type=float, help='l2 loss weight')
     parser.add_argument('--lr', default=1e-2, type=float, help='learning rate')
 
     # weights of regularization
-    parser.add_argument('--weight_frs', default=0, type=float, help='ur loss weight')
+    parser.add_argument('--weight_frs', default=0, type=float, help='UR loss weight')
 
-    parser.add_argument('--init', default='kmean', type=str, help='')
+    parser.add_argument('--init', default='kmean', type=str, help='Initilization approach for TSK rule centers')
     parser.add_argument('--tune_param', default=1, type=int, help='whether to tune parameter')
-    parser.add_argument('--repeats', default=1, type=int, help='repeat to get best pos')
+    parser.add_argument('--repeats', default=1, type=int, help='repeat to get best stop pos for without earlystopping')
 
     return parser.parse_args()
 
