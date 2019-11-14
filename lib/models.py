@@ -8,6 +8,16 @@ from sklearn.preprocessing import OneHotEncoder
 
 class ClsTSK(nn.Module):
     def __init__(self, in_dim, n_rules, n_classes, init_centers, bn=False, init_Vs=None, ampli=0,):
+        """
+        init
+        :param in_dim:
+        :param n_rules: number of rules
+        :param n_classes: number of classes
+        :param init_centers: init center vector, [in_dim, n_rules]
+        :param bn: bool, whether to use BN
+        :param init_Vs: init standard deviation for fuzzy sets, [in_dim, n_rules]
+        :param ampli: add one term to the exp to avoid numeric underflow
+        """
         super(ClsTSK, self).__init__()
         self.in_dim = in_dim
         self.n_rules = n_rules
@@ -21,6 +31,11 @@ class ClsTSK(nn.Module):
         self.build_model()
 
     def rebuild_model(self, cuda=False):
+        """
+        Re-init model with the same init Cs and Vs
+        :param cuda:
+        :return:
+        """
         self.Cs.data = t.from_numpy(self.init_centers).float()
         if self.init_Vs is not None:
             self.Vs.data = t.from_numpy(self.init_Vs).float()
@@ -54,6 +69,12 @@ class ClsTSK(nn.Module):
         Init.constant_(self.Bias, 0)
 
     def forward(self, x, with_frs=False):
+        """
+
+        :param x: input
+        :param with_frs: True: output y and normalized firing level, False: output y
+        :return:
+        """
         if hasattr(x, 'rbn'):
             x = self.rbn(x)
         frs = t.exp(
@@ -73,9 +94,18 @@ class ClsTSK(nn.Module):
         return t.sum(cons, dim=1, keepdim=False)
 
     def l2_loss(self):
+        """
+        compute the l2 loss using the consequent parameters except the bias
+        :return:
+        """
         return t.sum(self.Cons ** 2)
 
     def ur_loss(self, frs):
+        """
+        UR loss in our paper
+        :param frs: normalized firing level for one batch
+        :return:
+        """
         return ((t.mean(frs, dim=0) - 1/self.n_classes)**2).sum()
 
 
